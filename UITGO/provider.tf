@@ -18,7 +18,7 @@ provider "aws" {
   region = var.aws_region
   default_tags {
     tags = {
-      Project     = "UITGO"
+      Project     = "uitgo"
       Environment = var.environment
       ManagedBy   = "Terraform"
     }
