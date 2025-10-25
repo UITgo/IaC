@@ -1,23 +1,26 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_cognito_user_pool" "this" {
-  name = var.user_pool_name
-  auto_verified_attributes = ["phone_number"]
+ name = var.user_pool_name
+
+  auto_verified_attributes = ["email"]
 
   password_policy {
-    minimum_length = 8
+    minimum_length    = 8
     require_lowercase = true
-    require_numbers = true
-    require_symbols = true
+    require_numbers   = true
+    require_symbols   = true
     require_uppercase = true
   }
-  
-  mfa_configuration = "OPTIONAL"
-  sms_configuration {
-    external_id    = "cognito-sms"
-    sns_caller_arn = var.cognito_sms_role_arn
-    }
+
+  mfa_configuration = "OFF"
+
+  admin_create_user_config {
+    allow_admin_create_user_only = false
+  }
+    
 }
+
 
 resource "aws_cognito_user_pool_client" "this" {
   name = var.app_client_name
