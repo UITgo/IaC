@@ -1,8 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_cognito_user_pool" "this" {
- name = var.user_pool_name
-
+  name = var.user_pool_name
   auto_verified_attributes = ["email"]
 
   password_policy {
@@ -15,10 +14,16 @@ resource "aws_cognito_user_pool" "this" {
 
   mfa_configuration = "OFF"
 
+  verification_message_template {
+    default_email_option = "CONFIRM_WITH_CODE"
+    email_subject        = "Your UITGO OTP code"
+    email_message        = "Hello {username}, your verification code is {####}"
+    sms_message   = "Hello {username}, your verification code is {####}"
+  }
+
   admin_create_user_config {
     allow_admin_create_user_only = false
   }
-    
 }
 
 
