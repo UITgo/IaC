@@ -5,3 +5,7 @@ output "user_service_role_arn" {
 output "driver_service_role_arn" {
   value = aws_iam_role.driver_service_role.arn
 }
+
+output "cognito_sms_role_arn" {
+  value = aws_iam_role.cognito_sms_role.arn
+}
