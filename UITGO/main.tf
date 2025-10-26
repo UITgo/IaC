@@ -26,3 +26,18 @@ module "cognito" {
   app_client_name      = "uitgo-app-client"
   cognito_sms_role_arn = module.iam.cognito_sms_role_arn
 }
+
+module "sg" {
+  source       = "./modules/sg"
+  project_name = var.project_name
+  environment  = var.environment
+  vpc_id = module.vpc.vpc_id
+}
+
+module "redis" {
+  source             = "./modules/redis"
+  project_name       = var.project_name
+  environment        = var.environment
+  private_subnet_ids = module.vpc.private_subnet_ids
+  redis_sg_id        = module.sg.redis_sg_id
+}
