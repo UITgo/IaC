@@ -31,7 +31,7 @@ module "sg" {
   source       = "./modules/sg"
   project_name = var.project_name
   environment  = var.environment
-  vpc_id = module.vpc.vpc_id
+  vpc_id       = module.vpc.vpc_id
 }
 
 module "redis" {
@@ -40,4 +40,16 @@ module "redis" {
   environment        = var.environment
   private_subnet_ids = module.vpc.private_subnet_ids
   redis_sg_id        = module.sg.redis_sg_id
+}
+
+module "cloudwatch" {
+  source       = "./modules/cloudwatch"
+  project_name = var.project_name
+}
+module "ecs" {
+  source                      = "./modules/ecs"
+  project_name                = var.project_name
+  cloudwatch_log_group_name   = module.cloudwatch.cloudwatch_log_group_name
+  aws_region                  = var.aws_region
+  ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
 }
