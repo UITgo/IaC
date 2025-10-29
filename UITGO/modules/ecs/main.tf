@@ -6,9 +6,9 @@ resource "aws_ecs_task_definition" "this" {
   family                   = var.project_name
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu = "256"
-  memory = "512"
-  execution_role_arn = var.ecs_task_execution_role_arn
+  cpu                      = "256"
+  memory                   = "512"
+  execution_role_arn       = var.ecs_task_execution_role_arn
   container_definitions = jsonencode([
     {
       name      = "${var.project_name}-container"
