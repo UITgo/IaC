@@ -25,13 +25,13 @@ jobs:
           aws-region: us-east-1
 
       - name: Initialize Terraform
-        working-directory: Terraform-VPC
+        working-directory: UITGO
         run: terraform init -input=false
 
       - name: Plan Terraform changes
-        working-directory: Terraform-VPC
+        working-directory: UITGO
         run: terraform plan -out=tfplan
 
       - name: Apply Terraform changes
-        working-directory: Terraform-VPC
+        working-directory: UITGO
         run: terraform apply -auto-approve tfplan
