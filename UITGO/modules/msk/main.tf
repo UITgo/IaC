@@ -14,7 +14,7 @@ provider "kafka" {
 resource "aws_msk_cluster" "driver_kafka" {
   cluster_name = "${var.project_name}-msk-cluster"
   kafka_version = "3.5.1"
-  number_of_broker_nodes = 3
+  number_of_broker_nodes = 2
 
   broker_node_group_info {
     instance_type = "kafka.m5.large"
