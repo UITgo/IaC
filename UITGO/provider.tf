@@ -4,14 +4,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    kafka = {
+      source  = "Mongey/kafka" 
+      version = "~> 0.5.0"
+    }
   }
-
-  /*backend "s3" {
-    bucket = "UITGO-state-bucket"
-    key = "UITGO/terraform.tfstate"
-    region = "ap-southeast-1"
-    encrypt = true
-  } */
 }
 
 provider "aws" {
