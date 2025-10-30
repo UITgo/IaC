@@ -23,24 +23,3 @@ resource "aws_msk_cluster" "driver_kafka" {
   }
 
 }
-
-resource "kafka_topic" "driver_location" {
-  name = "driver-location"
-  partitions = 6
-  replication_factor = 3
-  config = {
-    "cleanup.policy" = "delete"
-    "segment.bytes" = "604800000"
-  }
-}
-
-resource "kafka_topic" "user_location" {
-  name = "user-location"
-  partitions = 6
-  replication_factor = 3
-  config = {
-    "cleanup.policy" = "delete"
-    "segment.bytes" = "604800000"
-  }
-  
-}
