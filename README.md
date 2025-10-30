@@ -1,15 +1,15 @@
 # README.md
 
-##Table of Contents:
-    *[Introduction](#introductioc)
-    *[Setup Instruction](#setup-instruction)
-        *[Create user IAM](#create-user-iam)
-        *[Run Terraform](#run-terraform)
+## Table of Contents:
+    * [Introduction](#introduction)
+    * [Setup Instruction](#setup-instruction)
+        * [Create user IAM](#create-user-iam)
+        * [Run Terraform](#run-terraform)
 
-##Introduction
+## Introduction
 This repository contains the Infrastructure as Code (IaC) for UITGO, using Terraform to automate the deployment of AWS resources.
 
-##Setup Instructions:
+## Setup Instructions:
 1. **Create user IAM**
 - Go to IAM section in AWS Management Console
 ![IAM_section](assets/IAM_section.png)
