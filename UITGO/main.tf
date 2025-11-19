@@ -28,10 +28,10 @@ module "cognito" {
 }
 
 module "sg" {
-  source       = "./modules/sg"
-  project_name = var.project_name
-  environment  = var.environment
-  vpc_id       = module.vpc.vpc_id
+  source             = "./modules/sg"
+  project_name       = var.project_name
+  environment        = var.environment
+  vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids
 }
 
@@ -47,17 +47,67 @@ module "cloudwatch" {
   source       = "./modules/cloudwatch"
   project_name = var.project_name
 }
-module "ecs" {
-  source                      = "./modules/ecs"
-  project_name                = var.project_name
-  cloudwatch_log_group_name   = module.cloudwatch.cloudwatch_log_group_name
-  aws_region                  = var.aws_region
-  ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
-}
 
 module "msk" {
-  source = "./modules/msk"
-  project_name = var.project_name
+  source             = "./modules/msk"
+  project_name       = var.project_name
   private_subnet_ids = module.vpc.private_subnet_ids
-  msk_sg_id = module.sg.msk_sg_id
+  msk_sg_id          = module.sg.msk_sg_id
+}
+
+module "ecs" {
+  source       = "./modules/ecs"
+  project_name = var.project_name
+}
+
+module "ecs_services" {
+  source = "./modules/ecs/services_module"
+
+  cluster_arn             = module.ecs.ecs_cluster_arn
+  cluster_name            = module.ecs.ecs_cluster_name
+  ecs_task_execution_role = module.iam.ecs_task_execution_role_arn
+  private_subnet_ids      = module.vpc.private_subnet_ids
+  service_sg_id           = module.sg.service_sg_id
+
+  alb_listener_arn = module.alb.listener_arn
+  target_groups    = module.alb.target_groups
+
+  services = [
+    {
+      name           = "auth-service"
+      cpu            = 256
+      memory         = 512
+      container_port = 3000
+      image          = var.auth_image
+    },
+    {
+      name           = "user-service"
+      cpu            = 256
+      memory         = 512
+      container_port = 3001
+      image          = var.user_image
+    },
+    {
+      name           = "trip-service"
+      cpu            = 256
+      memory         = 512
+      container_port = 3002
+      image          = var.trip_image
+    },
+    {
+      name           = "driver-service"
+      cpu            = 256
+      memory         = 512
+      container_port = 3003
+      image          = var.driver_image
+    }
+  ]
+}
+
+module "alb" {
+  source            = "./modules/alb"
+  project_name      = var.project_name
+  public_subnet_ids = module.vpc.public_subnet_ids
+  certificate_arn   = var.certificate_arn
+  vpc_id            = module.vpc.vpc_id
 }
