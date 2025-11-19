@@ -18,24 +18,29 @@ variable "environment" {
 variable "certificate_arn" {
   description = "ARN of the SSL certificate for the ALB"
   type        = string
+  default = "arn:aws:acm:ap-southeast-1:575675584065:certificate/48cd6784-46e6-481e-81f7-15901ca2b8d8"
 }
 
 variable "auth_image" {
   description = "Docker image for auth"
   type        = string
+  default = "uyenthy/auth-service:lastest"
 }
 
 variable "trip_image" {
   description = "Docker image for trip"
   type        = string
+  default = "uyenthy/trip-service:lastest"
 }
 
 variable "user_image" {
   description = "Docker image for user"
   type        = string
+  default = "uyenthy/user-service:lastest"
 }
 
 variable "driver_image" {
   description = "Docker image for driver"
   type        = string
+  default = "uyenthy/driver-service:lastest"
 }
