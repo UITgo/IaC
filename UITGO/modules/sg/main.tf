@@ -24,27 +24,6 @@ resource "aws_security_group" "redis_sg" {
 
 }
 
-resource "aws_security_group" "ecs_sg" {
-  name        = "${var.project_name}-ecs-sg"
-  description = "Security group for ECS tasks"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] 
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  
-}
-
 data "aws_subnet" "private_subnets" {
   count = length(var.private_subnet_ids)
   id       = var.private_subnet_ids[count.index]
