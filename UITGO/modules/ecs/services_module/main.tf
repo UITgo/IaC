@@ -46,7 +46,11 @@ resource "aws_ecs_service" "service" {
     container_port   = each.value.container_port
   }
 
-  depends_on = [aws_ecs_task_definition.task]
+  depends_on = [
+  aws_ecs_task_definition.task,
+  var.target_groups 
+  ]
+
 }
 
 resource "aws_appautoscaling_target" "target" {

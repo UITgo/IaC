@@ -26,3 +26,10 @@ output "target_groups" {
     "driver-service" = aws_lb_target_group.driver_tg.arn
   }
 }
+output "alb_arn" {
+  value = aws_alb.grpc.arn
+}
+
+output "listener_arn" {
+  value = aws_lb_listener.grpc_443.arn
+}
