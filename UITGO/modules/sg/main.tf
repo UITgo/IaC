@@ -46,8 +46,8 @@ resource "aws_security_group" "ecs_sg" {
 }
 
 data "aws_subnet" "private_subnets" {
-  for_each = toset(var.private_subnet_ids)
-  id       = each.value
+  count = length(var.private_subnet_ids)
+  id       = var.private_subnet_ids[count.index]
 }
 
 resource "aws_security_group" "msk_sg" {
