@@ -55,6 +55,16 @@ module "msk" {
   msk_sg_id          = module.sg.msk_sg_id
 }
 
+
+module "alb" {
+  source            = "./modules/alb"
+  project_name      = var.project_name
+  public_subnet_ids = module.vpc.public_subnet_ids
+  certificate_arn   = var.certificate_arn
+  vpc_id            = module.vpc.vpc_id
+}
+
+
 module "ecs" {
   source       = "./modules/ecs"
   project_name = var.project_name
@@ -102,12 +112,4 @@ module "ecs_services" {
       image          = var.driver_image
     }
   ]
-}
-
-module "alb" {
-  source            = "./modules/alb"
-  project_name      = var.project_name
-  public_subnet_ids = module.vpc.public_subnet_ids
-  certificate_arn   = var.certificate_arn
-  vpc_id            = module.vpc.vpc_id
 }
