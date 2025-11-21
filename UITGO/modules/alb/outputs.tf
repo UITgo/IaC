@@ -14,10 +14,6 @@ output "driver_tg_arn" {
   value = aws_lb_target_group.driver_tg.arn
 }
 
-output "listener_arn" {
-  value = aws_lb_listener.grpc_443.arn
-}
-
 output "target_groups" {
   value = {
     "auth-service"   = aws_lb_target_group.auth_tg.arn
