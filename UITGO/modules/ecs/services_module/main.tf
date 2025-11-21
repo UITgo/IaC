@@ -48,8 +48,11 @@ resource "aws_ecs_service" "service" {
 
   depends_on = [
   aws_ecs_task_definition.task,
-  var.target_groups 
-  ]
+  var.auth_rule_arn,
+  var.user_rule_arn,
+  var.driver_rule_arn,
+  var.trip_rule_arn,
+]
 
 }
 
