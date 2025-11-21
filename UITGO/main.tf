@@ -80,6 +80,10 @@ module "ecs_services" {
   service_sg_id           = module.sg.service_sg_id
 
   alb_listener_arn = module.alb.listener_arn
+  auth_rule_arn    = module.alb.auth_rule_arn
+  user_rule_arn    = module.alb.user_rule_arn
+  driver_rule_arn  = module.alb.driver_rule_arn
+  trip_rule_arn    = module.alb.trip_rule_arn
   target_groups    = module.alb.target_groups
 
   services = [

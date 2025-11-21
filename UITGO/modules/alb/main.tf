@@ -53,3 +53,62 @@ resource "aws_lb_target_group" "trip_tg" {
   vpc_id   = var.vpc_id
 }
 
+resource "aws_lb_listener_rule" "auth_rule" {
+  listener_arn = aws_lb_listener.grpc_443.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.auth_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/auth/*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "user_rule" {
+  listener_arn = aws_lb_listener.grpc_443.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.user_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/user/*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "driver_rule" {
+  listener_arn = aws_lb_listener.grpc_443.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.driver_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/driver/*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "trip_rule" {
+  listener_arn = aws_lb_listener.grpc_443.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.trip_tg.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/trip/*"]
+    }
+  }
+}

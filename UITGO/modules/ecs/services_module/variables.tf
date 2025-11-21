@@ -35,3 +35,19 @@ variable "services" {
     image          = string
   }))
 }
+
+variable "auth_rule_arn" {
+  type = string
+}
+
+variable "user_rule_arn" {
+  type = string
+}
+
+variable "driver_rule_arn" {
+  type = string
+}
+
+variable "trip_rule_arn" {
+  type = string
+}

@@ -29,3 +29,16 @@ output "alb_arn" {
 output "listener_arn" {
   value = aws_lb_listener.grpc_443.arn
 }
+
+output "auth_rule_arn" {
+  value = aws_lb_listener_rule.auth_rule.arn
+}
+output "user_rule_arn" {
+  value = aws_lb_listener_rule.user_rule.arn
+}
+output "driver_rule_arn" {
+  value = aws_lb_listener_rule.driver_rule.arn
+}
+output "trip_rule_arn" {
+  value = aws_lb_listener_rule.trip_rule.arn
+}
