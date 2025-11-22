@@ -45,7 +45,13 @@ variable "driver_image" {
   default = "uyenthy/driver-service:latest"
 }
 
-variable "dockerhub_secret_arn" {
-  description = "ARN of DockerHub secret for all services"
+variable "docker_username" {
   type        = string
+  description = "DockerHub username"
+}
+
+variable "docker_password" {
+  type        = string
+  description = "DockerHub password"
+  sensitive   = true
 }
