@@ -13,17 +13,18 @@ resource "aws_ecs_task_definition" "task" {
   execution_role_arn       = var.ecs_task_execution_role
   task_role_arn            = var.ecs_task_execution_role
 
-  container_definitions = jsonencode([
-    {
-      name      = each.key
-      image     = each.value.image
-      essential = true
-      portMappings = [{
-        containerPort = each.value.container_port
-        protocol      = "tcp"
-      }]
+  container_definitions = jsonencode([{
+    name  = each.key
+    image = each.value.image
+    essential = true
+    portMappings = [{
+      containerPort = each.value.container_port
+      protocol      = "tcp"
+    }]
+    repositoryCredentials = {
+      credentialsParameter = var.dockerhub_secret_arn
     }
-  ])
+  }])
 }
 
 resource "aws_ecs_service" "service" {
@@ -38,6 +39,7 @@ resource "aws_ecs_service" "service" {
   network_configuration {
     subnets         = var.private_subnet_ids
     security_groups = [var.service_sg_id]
+    assign_public_ip = false
   }
 
   load_balancer {
@@ -47,13 +49,8 @@ resource "aws_ecs_service" "service" {
   }
 
   depends_on = [
-  aws_ecs_task_definition.task,
-  var.auth_rule_arn,
-  var.user_rule_arn,
-  var.driver_rule_arn,
-  var.trip_rule_arn,
-]
-
+    aws_ecs_task_definition.task
+  ]
 }
 
 resource "aws_appautoscaling_target" "target" {
@@ -64,6 +61,7 @@ resource "aws_appautoscaling_target" "target" {
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
   resource_id        = "service/${var.cluster_name}/${each.key}"
+
   depends_on = [aws_ecs_service.service]
 }
 
@@ -82,5 +80,8 @@ resource "aws_appautoscaling_policy" "cpu" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
+
+    scale_in_cooldown  = 60
+    scale_out_cooldown = 60
   }
 }
