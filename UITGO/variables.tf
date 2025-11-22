@@ -24,23 +24,23 @@ variable "certificate_arn" {
 variable "auth_image" {
   description = "Docker image for auth"
   type        = string
-  default = "uyenthy/auth-service:lastest"
+  default = "uyenthy/auth-service:latest"
 }
 
 variable "trip_image" {
   description = "Docker image for trip"
   type        = string
-  default = "uyenthy/trip-service:lastest"
+  default = "uyenthy/trip-service:latest"
 }
 
 variable "user_image" {
   description = "Docker image for user"
   type        = string
-  default = "uyenthy/user-service:lastest"
+  default = "uyenthy/user-service:latest"
 }
 
 variable "driver_image" {
   description = "Docker image for driver"
   type        = string
-  default = "uyenthy/driver-service:lastest"
+  default = "uyenthy/driver-service:latest"
 }
