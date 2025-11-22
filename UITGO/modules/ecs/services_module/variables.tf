@@ -27,12 +27,13 @@ variable "target_groups" {
 }
 
 variable "services" {
+  description = "List of ECS services"
   type = list(object({
-    name           = string
-    cpu            = number
-    memory         = number
-    container_port = number
-    image          = string
+    name                 = string
+    cpu                  = number
+    memory               = number
+    container_port       = number
+    image                = string
   }))
 }
 
@@ -50,4 +51,9 @@ variable "driver_rule_arn" {
 
 variable "trip_rule_arn" {
   type = string
+}
+
+variable "dockerhub_secret_arn" {
+  description = "ARN of DockerHub secret for all services"
+  type        = string
 }
