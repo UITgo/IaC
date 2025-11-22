@@ -69,6 +69,11 @@ module "ecs" {
   source       = "./modules/ecs"
   project_name = var.project_name
 }
+module "docker" {
+  source = "./modules/docker"
+  docker_username = var.docker_username
+  docker_password = var.docker_password
+}
 
 module "ecs_services" {
   source = "./modules/ecs/services_module"
@@ -85,16 +90,16 @@ module "ecs_services" {
   driver_rule_arn  = module.alb.driver_rule_arn
   trip_rule_arn    = module.alb.trip_rule_arn
   target_groups    = module.alb.target_groups
-  dockerhub_secret_arn = var.dockerhub_secret_arn
+  dockerhub_secret_arn = module.docker.dockerhub_secret_arn
 
-    services = [
+  services = [
     {
       name                = "auth-service"
       cpu                 = 256
       memory              = 512
       container_port      = 3000
       image               = var.auth_image
-      dockerhub_secret_arn = var.dockerhub_secret_arn
+      dockerhub_secret_arn = module.docker.dockerhub_secret_arn
     },
     {
       name                = "user-service"
@@ -102,7 +107,7 @@ module "ecs_services" {
       memory              = 512
       container_port      = 3001
       image               = var.user_image
-      dockerhub_secret_arn = var.dockerhub_secret_arn
+      dockerhub_secret_arn = module.docker.dockerhub_secret_arn
     },
     {
       name                = "trip-service"
@@ -110,7 +115,7 @@ module "ecs_services" {
       memory              = 512
       container_port      = 3002
       image               = var.trip_image
-      dockerhub_secret_arn = var.dockerhub_secret_arn
+      dockerhub_secret_arn = module.docker.dockerhub_secret_arn
     },
     {
       name                = "driver-service"
@@ -118,7 +123,7 @@ module "ecs_services" {
       memory              = 512
       container_port      = 3003
       image               = var.driver_image
-      dockerhub_secret_arn = var.dockerhub_secret_arn
+      dockerhub_secret_arn = module.docker.dockerhub_secret_arn
     }
   ]
 }
